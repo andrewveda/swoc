@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Networking Event Quiz 🌐</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(ellipse at bottom, #0b0c10 0%, #1f2833 60%, #0b0c10 100%);
+    color: #fff;
+    overflow: hidden;
+ overflow-y: auto;      /* Allow vertical scroll */
+  min-height: 100vh;  
+  }
+
+  /* Animated stars */
+  .stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: transparent url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+    animation: moveStars 200s linear infinite;
+    z-index: -1;
+    opacity: 0.5;
+  }
+
+  @keyframes moveStars {
+    from { background-position: 0 0; }
+    to { background-position: 10000px 10000px; }
+  }
+
+  input, button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #00ffff;
+    color: #fff;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  input:focus, button:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 15px #00ffff;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(ellipse at bottom, #0b0c1b 0%, #000000 100%);
+    color: white; text-align: center;
+  }
+  .container {
+    max-width: 800px; margin: 2rem auto;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem; border-radius: 15px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  }
+  .question { font-size:1.5rem; margin-bottom:1rem; }
+  .options { display:flex; flex-direction:column; gap:1rem; }
+  button {
+    padding:1rem; border:none; border-radius:10px; font-size:1rem;
+    cursor:pointer; background-color:#1f1f2e; color:white; transition:0.3s;
+  }
+  button:hover { background-color:#343454; }
+  .correct { background-color:green !important; }
+  .wrong { background-color:red !important; }
+  #timer,#wrongCounter,#streakCounter,#progressTracker { font-size:1rem; margin-bottom:1rem; color:#ffd700; }
+  #scoreCard { margin-top:2rem; font-size:1.2rem; text-align:left; }
+  #restartBtn { margin-top:2rem; padding:0.7rem 2rem; font-size:1.1rem; background-color:#444466; border:none; border-radius:10px; cursor:pointer; color:white; }
+  #nameForm input,#nameForm select { display:block; width:90%; max-width:300px; margin:0.5rem auto; padding:0.7rem; font-size:1rem; border-radius:5px; border:none;}
+#motto {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #00ffff;
+  text-align: center;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #0099ff, 0 0 40px #0066ff;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    opacity: 0.7;
+    text-shadow: 0 0 8px #00ffff, 0 0 15px #00ccff, 0 0 30px #0066ff;
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 20px #00ffff, 0 0 40px #00ccff, 0 0 60px #0066ff;
+  }
+  100% {
+    opacity: 0.7;
+    text-shadow: 0 0 8px #00ffff, 0 0 15px #00ccff, 0 0 30px #0066ff;
+  }
+}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<div class="container" id="quizContainer">
+
+  <div id="nameForm">
+    <div style="text-align:center; margin-bottom:1.5rem;">
+  <h1 style="font-size:2rem; margin:0; color:#FF6F61;">SRM Valliammai Engineering College</h1>
+  <h2 style="font-size:1.5rem; margin:0.2rem 0; color:#6B5B95;">First Year Students</h2>
+  <h3 style="font-size:1.3rem; margin:0.2rem 0; color:#88B04B;">Mystic Summit</h3>
+  <p style="font-size:1rem; margin:0.5rem 0; color:#F7CAC9;">
+    A Year-Round Networking Event <br> <br>
+    Ignite Your Ideas 🔥 <br> Discover Your Tribe 🤝 <br> Shape Your Journey 🚀
+  </p>
+</div>
+
+    <select id="departmentSelect">
+      <option value="">-- Select Department --</option>
+      <option value="Cyber Security">Cyber Security</option>
+      <option value="CSE-1">CSE-1</option>
+      <option value="CSE-2">CSE-2</option>
+      <option value="CSE-3">CSE-3</option>
+      <option value="Mechanical Engineering">Mechanical Engineering</option>
+      <option value="ECE-1">ECE-1</option>
+      <option value="ECE-2">ECE-2</option>
+      <option value="ECE-3">ECE-3</option>
+      <option value="AI DS-1">AI DS-1</option>
+      <option value="AI DS-2">AI DS-2</option>
+      <option value="Civil">Civil</option>
+      <option value="Agri">Agri</option>
+      <option value="EEE">EEE</option>
+      <option value="EIE">EIE</option>
+      <option value="Medical Electronics">Medical Electronics</option>
+      <option value="IT-1">IT-1</option>
+      <option value="IT-2">IT-2</option>
+    </select>
+
+    <input type="text" id="nameInput" placeholder="Enter your name" />
+    <button onclick="beginQuiz()">Start Quiz</button>
+<p id="motto">"Julius Caesar said 'I came. I saw. I conquered.' We say 'Connect. Collaborate. Conquer!'" 🌐</p>
+
+  </div>
+
+  <div id="quizContent" style="display:none;">
+    <div id="timer">⏳ Time: 0s</div>
+    <div id="wrongCounter">❌ Wrong Attempts: 0</div>
+    <div id="streakCounter">🔥 Streak: 0</div>
+    <div id="progressTracker">📍 Question 1 of 5</div>
+    <div class="question" id="question">Loading...</div>
+    <div class="options" id="options"></div>
+    <button id="nextBtn" style="display:none; margin-top:1rem;">Next ➡️</button>
+    <div id="scoreCard"></div>
+    <button id="restartBtn" style="display:none;">Restart</button>
+  </div>
+
+</div>
+
+<script>
+const quizData = [
+  {
+    "q": "Strengths are INTERNAL. Choose at least one from each of the following category.",
+    "options": [
+      "Personal Traits [Core attributes that define your professional persona]",
+      "Interpersonal Skills [Skills that enable effective collaboration and leadership]",
+      "Cognitive / Analytical Skills [Skills for problem-solving, critical thinking, and innovation]",
+      "Organizational / Work Management Skills [Skills to plan, prioritize, and execute tasks efficiently]",
+      "Technical / Digital Competencies [Expertise in engineering tools, programming, and technological solutions]",
+      "Achievements / Recognition-Oriented Strengths [Proven track record of high performance and measurable results]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the strengths you possess from the Personal Traits category:",
+    "options": [
+      "Adaptable [I efficiently adjust to evolving project requirements and dynamic work environments.]",
+      "Ambitious [I set high-performance goals and consistently pursue technical excellence.]",
+      "Assertive [I communicate ideas and recommendations confidently in professional discussions.]",
+      "Authentic [I maintain integrity and ethical standards in professional conduct.]",
+      "Calm under pressure [I perform reliably and make informed decisions during high-stakes situations.]",
+      "Confident [I trust my technical judgment and take ownership of responsibilities.]",
+      "Curious [I actively seek knowledge and innovative approaches to engineering challenges.]",
+      "Dependable [I deliver quality work consistently and meet project commitments.]",
+      "Determined [I persist through complex technical problems until a robust solution is achieved.]",
+      "Disciplined [I manage timelines and resources with rigor and accountability.]",
+      "Empathetic [I understand team dynamics and consider stakeholder perspectives in decisions.]",
+      "Enthusiastic [I approach engineering projects with passion and proactive energy.]",
+      "Flexible [I pivot strategies effectively in response to technical or operational changes.]",
+      "Honest [I communicate project status and challenges transparently.]",
+      "Humble [I acknowledge knowledge gaps and seek expert input when necessary.]",
+      "Innovative [I develop creative engineering solutions to complex technical problems.]",
+      "Motivated [I consistently strive to improve technical skills and project outcomes.]",
+      "Open-minded [I consider alternative technical approaches and adopt best practices.]",
+      "Patient [I methodically troubleshoot and optimize engineering processes.]",
+      "Persistent [I maintain focus until project objectives are successfully met.]",
+      "Positive [I sustain a constructive and solution-oriented mindset in the workplace.]",
+      "Resilient [I recover from setbacks and continue contributing effectively to projects.]",
+      "Self-aware [I recognize my professional strengths and areas for improvement.]",
+      "Trustworthy [I maintain confidentiality and reliability in project responsibilities.]"
+    ],
+    "correct": [],
+     "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the strengths you possess from the Interpersonal Skills category:",
+    "options": [
+      "Active listener [I attentively understand team and client requirements to ensure effective execution.]",
+      "Approachable [I create a professional environment where colleagues feel comfortable sharing ideas.]",
+      "Collaborative [I work seamlessly with cross-functional teams to deliver project outcomes.]",
+      "Communicative [I articulate technical information clearly to both technical and non-technical stakeholders.]",
+      "Diplomatic [I handle conflicts and differing opinions tactfully to maintain team cohesion.]",
+      "Encouraging [I motivate peers and junior engineers to achieve their highest potential.]",
+      "Friendly [I foster positive professional relationships to improve teamwork and productivity.]",
+      "Good team player [I contribute meaningfully to team objectives while respecting roles.]",
+      "Influential [I provide insights and recommendations that shape project direction.]",
+      "Leadership [I guide teams, assign responsibilities, and ensure project milestones are met.]",
+      "Negotiation [I find mutually beneficial solutions in project planning and resource allocation.]",
+      "Persuasive [I convincingly present ideas, proposals, and technical solutions.]",
+      "Respectful [I value diverse perspectives and maintain professional decorum.]",
+      "Supportive [I assist team members in resolving technical or process-related challenges.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the strengths you possess from the Cognitive / Analytical Skills category:",
+    "options": [
+      "Analytical [I evaluate data and technical information to inform project decisions.]",
+      "Critical thinker [I objectively assess challenges and identify optimal engineering solutions.]",
+      "Creative [I develop innovative approaches to complex technical problems.]",
+      "Curious [I proactively explore emerging technologies and methodologies.]",
+      "Detail-oriented [I ensure precision and accuracy in technical documentation and project execution.]",
+      "Logical [I structure problem-solving steps methodically for robust solutions.]",
+      "Observant [I identify patterns, anomalies, and risks in engineering processes.]",
+      "Problem solver [I efficiently identify issues and implement effective technical solutions.]",
+      "Strategic thinker [I plan project phases with foresight to optimize resources and timelines.]",
+      "Visionary [I conceptualize long-term improvements and engineering innovations.]",
+      "Quick learner [I rapidly acquire new technical skills and apply them effectively.]"
+    ],
+    "correct": [], 
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the strengths you possess from the Organizational / Work Management Skills category:",
+    "options": [
+      "Goal-oriented [I set clear objectives and consistently achieve project targets.]",
+      "Multitasker [I handle concurrent technical tasks efficiently without compromising quality.]",
+      "Organized [I structure work, documentation, and resources for optimal productivity.]",
+      "Planner [I develop detailed project plans and milestones for timely execution.]",
+      "Prioritizer [I identify critical tasks and allocate resources accordingly.]",
+      "Responsible [I take accountability for outcomes and ensure deliverables meet standards.]",
+      "Self-motivated [I independently drive projects forward and seek continuous improvement.]",
+      "Time management [I allocate time efficiently to meet deadlines and optimize productivity.]",
+      "Efficient [I maximize output while minimizing wasted effort and resources.]",
+      "Process-driven [I adhere to engineering processes to ensure consistent quality.]",
+      "Reliable [Team members can count on me to deliver accurate results on schedule.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the strengths you possess from the Technical / Digital Competencies category:",
+    "options": [
+      "Python programming [I write efficient, scalable code and develop scripts or applications in Python.]",
+      "C/C++ programming [I implement high-performance algorithms and software solutions using C/C++.]", 
+      "MATLAB / Simulink [I perform simulations, data analysis, and modeling for engineering systems.]",
+      "CAD / SolidWorks / AutoCAD [I create precise 2D/3D mechanical or electrical designs.]",
+      "Embedded Systems / Microcontrollers [I design, program, and debug embedded hardware and firmware.]",
+      "Data analysis & visualization [I interpret engineering datasets using tools like Excel, Pandas, or Tableau.]",
+      "Machine Learning / AI [I develop predictive models and apply ML algorithms to solve engineering problems.]",
+      "IoT / Sensor Integration [I implement IoT solutions with sensor networks and connectivity.]",
+      "Cloud / DevOps tools [I deploy applications on cloud platforms and use CI/CD pipelines.]",
+      "Database management / SQL [I design, query, and maintain relational databases efficiently.]",
+      "Troubleshooting complex systems [I diagnose and resolve hardware, software, or system-level issues.]",
+      "Innovation-driven [I create novel technical solutions to complex engineering problems.]",
+      "Adaptable to new tools [I rapidly learn and integrate emerging engineering software and hardware.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the strengths you possess from the Achievements / Recognition-Oriented Strengths category:",
+    "options": [
+      "High achiever [I consistently exceed project expectations and deliver measurable outcomes.]",
+      "Award-winning [I have received formal recognition for exceptional technical contributions.]",
+      "Record of excellence [I maintain a history of high-quality work and successful project completion.]",
+      "Proven results [I can demonstrate tangible outcomes from my initiatives.]",
+      "Track record of success [I have consistently met or exceeded engineering and project goals.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": " Strengths and Weaknesses are INTERNAL. Choose at least one from all these categories.",
+    "options": [
+      "Personal Traits [Internal characteristics that may limit your professional effectiveness]",
+      "Interpersonal Skills [Areas where communication or collaboration could improve]",
+      "Cognitive / Analytical Skills [Thinking, problem-solving, or decision-making areas needing growth]",
+      "Organizational / Work Management Skills [Task management or process-oriented areas for improvement]",
+      "Technical / Digital Competencies [Engineering tools, programming, or tech skills to develop further]",
+      "Achievement / Recognition-Oriented Weaknesses [Areas where measurable impact could improve]"
+    ],
+    "correct": [],
+    "encouragement": "Identifying weaknesses is the first step toward professional growth 💡"
+  },
+  {
+    "q": "Select the weaknesses you identify within Personal Traits:",
+    "options": [
+      "Time management improvement [I sometimes delay tasks and am working on planning better.]",
+      "Balanced confidence [I occasionally underestimate challenges and aim to assess them more thoroughly.]",
+      "Attention to detail vs efficiency [I focus on high-quality work, sometimes at the cost of speed.]",
+      "Patience development [I work on maintaining composure when projects take longer than expected.]",
+      "Delegation growth [I prefer handling tasks myself but am learning to trust team members.]",
+      "Measured risk-taking [I am cautious with unfamiliar approaches and aim to take calculated risks.]",
+      "Prioritization skills [I sometimes overcommit and am learning to focus on key responsibilities.]",
+      "Receptive to feedback [I am developing openness to constructive input.]",
+      "Steady performance [I am working on maintaining consistent performance under pressure.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Interpersonal Skills:",
+    "options": [
+      "Clear communication [I sometimes struggle to simplify technical concepts for all audiences.]",
+      "Professional relationship-building [I aim to expand my network proactively.]",
+      "Conflict management growth [I am learning to address disagreements constructively.]",
+      "Leadership development [I am working on guiding teams more effectively.]",
+      "Cross-team collaboration [I aim to engage more with diverse teams.]",
+      "Active engagement [I am developing a habit of contributing more in discussions.]",
+      "Constructive feedback skills [I am learning to provide feedback effectively.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Cognitive / Analytical Skills:",
+    "options": [
+      "Efficient decision-making [I sometimes take longer to decide and am learning to act faster.]",
+      "Decision prioritization [I am developing skills to focus on the most critical solutions.]",
+      "Creative approach development [I aim to explore more innovative solutions.]",
+      "Big-picture awareness [I am working on balancing focus on details with overall context.]",
+      "Adaptability growth [I am improving at integrating new tools or processes.]",
+      "Objective decision-making [I aim to base choices more on data than assumptions.]",
+      "Structured problem-solving [I am developing a more consistent methodology.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Organizational / Work Management Skills:",
+    "options": [
+      "Efficient time allocation [I am working on optimizing my schedule to meet deadlines.]",
+      "Multi-task efficiency [I am developing strategies to manage concurrent tasks effectively.]",
+      "Documentation improvement [I aim to maintain clearer records of work and progress.]",
+      "Planning skills [I am improving in creating structured project plans.]",
+      "Prioritization skills [I aim to focus more consistently on critical tasks.]",
+      "Responsibility balancing [I am learning to manage workload effectively.]",
+      "Process flexibility [I am developing adaptability in workflows.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Technical / Digital Competencies:",
+    "options": [
+      "Skill expansion [I aim to strengthen proficiency in key programming languages.]",
+      "Simulation skills growth [I am improving modeling and simulation capabilities.]",
+      "Design skills development [I am enhancing CAD or technical design expertise.]",
+      "Embedded systems growth [I am building experience with microcontrollers and firmware.]",
+      "Analytical skill development [I aim to improve interpretation of technical datasets.]",
+      "Emerging technology adoption [I am learning AI/ML, IoT, or cloud tools.]",
+      "Troubleshooting skills growth [I am improving problem-solving speed for complex systems.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Achievement / Recognition-Oriented Weaknesses:",
+    "options": [
+      "Demonstrating impact [I am learning to show measurable outcomes of my work.]",
+      "Visibility growth [I aim to present my contributions more effectively.]",
+      "Consistency improvement [I am focusing on steady achievement of targets.]",
+      "Professional exposure [I am working on sharing my expertise with peers and supervisors.]",
+      "Portfolio development [I am building better documentation of projects and accomplishments.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Opportunities are EXTERNAL. Choose at least one from each category.",
+    "options": [
+      "Educational Opportunities [Courses, certifications, and workshops to enhance technical knowledge]",
+      "Professional Networking [Platforms, industry events, and mentorships to build connections]",
+      "Industry Exposure [Internships, projects, and live industry experiences]",
+      "Technological Trends [Emerging tools, software, and industry innovations to adopt]",
+      "Skill Development Programs [Government, institutional, or private programs for upskilling]",
+      "Recognition & Career Growth [Competitions, awards, and professional visibility to advance careers]"
+    ],
+    "correct": [],
+    "encouragement": "Identify opportunities that you can leverage to accelerate your career 🚀"
+  },
+  {
+    "q": "Select the opportunities within Educational Opportunities:",
+    "options": [
+      "Online certifications [Platforms like NPTEL, Coursera, or Udemy to gain engineering skills.]",
+      "Advanced courses [Specialized courses in AI, IoT, Embedded Systems, Cloud, or Data Analytics.]",
+      "Workshops & bootcamps [Hands-on sessions to practice real-world engineering applications.]",
+      "University programs [Electives, minors, or postgraduate studies to expand expertise.]",
+      "Skill-based certifications [Industry-recognized certificates in programming, CAD, or project management.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Professional Networking:",
+    "options": [
+      "Industry conferences [Attend events like IIT TechFests, Embedded India, or Hackathons.]",
+      "Professional associations [Join IEEE, IEI, ISTE, or local engineering bodies.]",
+      "Mentorship programs [Engage with senior engineers, faculty, or industry mentors.]",
+      "LinkedIn & professional platforms [Connect with peers, alumni, and industry experts.]",
+      "Collaborative projects [Participate in cross-college or industry-academic initiatives.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Industry Exposure:",
+    "options": [
+      "Internships [Join companies like TCS, Infosys, Bosch, Siemens, or start-ups.]",
+      "Live projects [Work on real-time engineering problems during coursework or research.]",
+      "Industrial visits [Experience production plants, labs, or R&D facilities.]",
+      "Capstone projects [Apply technical knowledge to practical engineering solutions.]",
+      "Start-up exposure [Collaborate with Indian start-ups for hands-on learning and innovation.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Technological Trends:",
+    "options": [
+      "AI & Machine Learning [Adopt tools and frameworks relevant to Indian industry applications.]",
+      "IoT & Embedded Systems [Explore sensors, automation, and smart device development.]",
+      "Cloud computing [Use platforms like AWS, Azure, or GCP for scalable solutions.]",
+      "Automation & Robotics [Engage with automation trends in manufacturing and IT.]",
+      "Data Analytics [Learn tools like Python, MATLAB, or Tableau for data-driven insights.]",
+      "Open-source contributions [Participate in GitHub projects and collaborative coding communities.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Skill Development Programs:",
+    "options": [
+      "Government initiatives [Participate in Skill India, Digital India, Naan Mudhalvan programs.]",
+      "College-organized workshops [Attend departmental or college-level skill enhancement sessions.]",
+      "Corporate training programs [Enroll in company-sponsored certifications and bootcamps.]",
+      "Online skill platforms [Leverage platforms like GeeksforGeeks, HackerRank, or CodeChef.]",
+      "Soft-skill development [Online certifications]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Recognition & Career Growth:",
+    "options": [
+      "Technical competitions [Participate in Smart India Hackathon, coding contests, robotics competitions.]",
+      "Research publications [Publish in IEEE, journals, or conferences.]",
+      "Awards & scholarships [Apply for national or institutional recognition programs.]",
+      "Alumni & peer visibility [Showcase projects to seniors, alumni, and faculty for mentoring and guidance.]",
+      "Entrepreneurship exposure [Join incubators or start-up challenges to convert ideas into ventures.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Challenges are EXTERNAL. Choose at least one from each of the following category.",
+    "options": [
+      "Educational Barriers [Obstacles that limit access to learning resources or advanced knowledge]",
+      "Industry & Job Market Challenges [Factors that affect employability and career progression]",
+      "Technological & Innovation Challenges [Rapid changes in technology and skill demands]",
+      "Organizational / Workplace Challenges [Constraints within companies or teams that hinder growth]",
+      "Personal / Societal Challenges [External pressures, expectations, or limitations in the Indian context]"
+    ],
+    "correct": [],
+    "encouragement": "Recognizing external challenges helps you plan strategies to overcome them 💪"
+  },
+  {
+    "q": "Select the challenges within Educational Barriers:",
+    "options": [
+      "Limited access to specialized courses [Advanced ML, IoT, Robotics courses may not be available in all colleges or regions]",
+      "High course costs [Certification fees for NPTEL, Coursera, or Udemy may be restrictive for some students]",
+      "Infrastructure gaps [Lack of labs, simulation software, or high-performance computing resources in colleges]",
+      "Limited mentorship [Few faculty or industry mentors to guide complex technical projects or research]",
+      "Competitive academic pressure [Heavy coursework or exam schedules may restrict time for skill development]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the challenges within Industry & Job Market Challenges:",
+    "options": [
+      "High competition [Large number of engineering graduates in India vying for limited roles]",
+      "Changing job requirements [Industries increasingly demand skills in AI, ML, Cloud, IoT, which may require continuous learning]",
+      "Internship scarcity [Limited availability of quality internships in desired companies or locations]",
+      "Geographical constraints [Job opportunities may require relocation to hubs like NY, Silicon Valley]",
+      "Start-up risk [Opportunities in start-ups may offer learning but come with high uncertainty and financial instability]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the challenges within Technological & Innovation Challenges:",
+    "options": [
+      "Rapid technology evolution [Technologies like AI/ML, IoT, and cloud evolve fast, requiring constant upskilling]",
+      "Tool & platform updates [Frequent software updates or new frameworks require learning curves]",
+      "Emerging global standards [Need to align skills with ISO, IEEE, or industry-specific standards]",
+      "Cybersecurity & data privacy concerns [Engineering solutions increasingly require knowledge of secure practices and compliance]",
+      "Integration complexity [Integrating multiple technologies (cloud, embedded, AI) can be challenging]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the challenges within Organizational / Workplace Challenges:",
+    "options": [
+      "Limited mentorship at workplace [Not all organizations have structured guidance or technical leadership support]",
+      "Hierarchical constraints [Decision-making delays due to rigid structures in Indian companies]",
+      "Resource limitations [Limited access to hardware, software, or budget for projects]",
+      "Project ambiguity [Unclear objectives or changing client requirements in real-world projects]",
+      "Team dynamics [Interpersonal conflicts, uneven workload distribution, or lack of cross-functional collaboration]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the challenges within Personal / Societal Challenges:",
+    "options": [
+      "Family expectations [Pressure to secure stable jobs or prioritize certain career paths]",
+      "Financial constraints [Limited funds for certifications, workshops, or higher studies]",
+      "Gender or social bias [Women or underrepresented groups may face bias in some technical workplaces]",
+      "Regional limitations [Students in smaller towns may have less access to internships, labs, or start-ups]",
+      "Work-life balance [Managing academic, personal, and professional commitments can be challenging]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Strengths are INTERNAL. Choose at least one from each of the following category.",
+    "options": [
+      "Personal Traits [Core attributes that define your professional persona]",
+      "Interpersonal Skills [Skills that enable effective collaboration and leadership]",
+      "Cognitive / Analytical Skills [Skills for problem-solving, critical thinking, and innovation]",
+      "Organizational / Work Management Skills [Skills to plan, prioritize, and execute tasks efficiently]",
+      "Technical / Digital Competencies [Expertise in engineering tools, programming, and technological solutions]",
+      "Achievements / Recognition-Oriented Strengths [Proven track record of high performance and measurable results]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the strengths you possess from the Personal Traits category:",
+    "options": [
+      "Adaptable [I efficiently adjust to evolving project requirements and dynamic work environments.]",
+      "Ambitious [I set high-performance goals and consistently pursue technical excellence.]",
+      "Assertive [I communicate ideas and recommendations confidently in professional discussions.]",
+      "Authentic [I maintain integrity and ethical standards in professional conduct.]",
+      "Calm under pressure [I perform reliably and make informed decisions during high-stakes situations.]",
+      "Confident [I trust my technical judgment and take ownership of responsibilities.]",
+      "Curious [I actively seek knowledge and innovative approaches to engineering challenges.]",
+      "Dependable [I deliver quality work consistently and meet project commitments.]",
+      "Determined [I persist through complex technical problems until a robust solution is achieved.]",
+      "Disciplined [I manage timelines and resources with rigor and accountability.]",
+      "Empathetic [I understand team dynamics and consider stakeholder perspectives in decisions.]",
+      "Enthusiastic [I approach engineering projects with passion and proactive energy.]",
+      "Flexible [I pivot strategies effectively in response to technical or operational changes.]",
+      "Honest [I communicate project status and challenges transparently.]",
+      "Humble [I acknowledge knowledge gaps and seek expert input when necessary.]",
+      "Innovative [I develop creative engineering solutions to complex technical problems.]",
+      "Motivated [I consistently strive to improve technical skills and project outcomes.]",
+      "Open-minded [I consider alternative technical approaches and adopt best practices.]",
+      "Patient [I methodically troubleshoot and optimize engineering processes.]",
+      "Persistent [I maintain focus until project objectives are successfully met.]",
+      "Positive [I sustain a constructive and solution-oriented mindset in the workplace.]",
+      "Resilient [I recover from setbacks and continue contributing effectively to projects.]",
+      "Self-aware [I recognize my professional strengths and areas for improvement.]",
+      "Trustworthy [I maintain confidentiality and reliability in project responsibilities.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+    }
+  },
+  {
+    "q": "Select the strengths you possess from the Interpersonal Skills category:",
+    "options": [
+      "Active listener [I attentively understand team and client requirements to ensure effective execution.]",
+      "Approachable [I create a professional environment where colleagues feel comfortable sharing ideas.]",
+      "Collaborative [I work seamlessly with cross-functional teams to deliver project outcomes.]",
+      "Communicative [I articulate technical information clearly to both technical and non-technical stakeholders.]",
+      "Diplomatic [I handle conflicts and differing opinions tactfully to maintain team cohesion.]",
+      "Encouraging [I motivate peers and junior engineers to achieve their highest potential.]",
+      "Friendly [I foster positive professional relationships to improve teamwork and productivity.]",
+      "Good team player [I contribute meaningfully to team objectives while respecting roles.]",
+      "Influential [I provide insights and recommendations that shape project direction.]",
+      "Leadership [I guide teams, assign responsibilities, and ensure project milestones are met.]",
+      "Negotiation [I find mutually beneficial solutions in project planning and resource allocation.]",
+      "Persuasive [I convincingly present ideas, proposals, and technical solutions.]",
+      "Respectful [I value diverse perspectives and maintain professional decorum.]",
+      "Supportive [I assist team members in resolving technical or process-related challenges.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the strengths you possess from the Cognitive / Analytical Skills category:",
+    "options": [
+      "Analytical [I evaluate data and technical information to inform project decisions.]",
+      "Critical thinker [I objectively assess challenges and identify optimal engineering solutions.]",
+      "Creative [I develop innovative approaches to complex technical problems.]",
+      "Curious [I proactively explore emerging technologies and methodologies.]",
+      "Detail-oriented [I ensure precision and accuracy in technical documentation and project execution.]",
+      "Logical [I structure problem-solving steps methodically for robust solutions.]",
+      "Observant [I identify patterns, anomalies, and risks in engineering processes.]",
+      "Problem solver [I efficiently identify issues and implement effective technical solutions.]",
+      "Strategic thinker [I plan project phases with foresight to optimize resources and timelines.]",
+      "Visionary [I conceptualize long-term improvements and engineering innovations.]",
+      "Quick learner [I rapidly acquire new technical skills and apply them effectively.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the strengths you possess from the Organizational / Work Management Skills category:",
+    "options": [
+      "Goal-oriented [I set clear objectives and consistently achieve project targets.]",
+      "Multitasker [I handle concurrent technical tasks efficiently without compromising quality.]",
+      "Organized [I structure work, documentation, and resources for optimal productivity.]",
+      "Planner [I develop detailed project plans and milestones for timely execution.]",
+      "Prioritizer [I identify critical tasks and allocate resources accordingly.]",
+      "Responsible [I take accountability for outcomes and ensure deliverables meet standards.]",
+      "Self-motivated [I independently drive projects forward and seek continuous improvement.]",
+      "Time management [I allocate time efficiently to meet deadlines and optimize productivity.]",
+      "Efficient [I maximize output while minimizing wasted effort and resources.]",
+      "Process-driven [I adhere to engineering processes to ensure consistent quality.]",
+      "Reliable [Team members can count on me to deliver accurate results on schedule.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+    }
+  },
+  {
+    "q": "Select the strengths you possess from the Technical / Digital Competencies category:",
+    "options": [
+      "Python programming [I write efficient, scalable code and develop scripts or applications in Python.]",
+      "C/C++ programming [I implement high-performance algorithms and software solutions using C/C++.]", 
+      "MATLAB / Simulink [I perform simulations, data analysis, and modeling for engineering systems.]",
+      "CAD / SolidWorks / AutoCAD [I create precise 2D/3D mechanical or electrical designs.]",
+      "Embedded Systems / Microcontrollers [I design, program, and debug embedded hardware and firmware.]",
+      "Data analysis & visualization [I interpret engineering datasets using tools like Excel, Pandas, or Tableau.]",
+      "Machine Learning / AI [I develop predictive models and apply ML algorithms to solve engineering problems.]",
+      "IoT / Sensor Integration [I implement IoT solutions with sensor networks and connectivity.]",
+      "Cloud / DevOps tools [I deploy applications on cloud platforms and use CI/CD pipelines.]",
+      "Database management / SQL [I design, query, and maintain relational databases efficiently.]",
+      "Troubleshooting complex systems [I diagnose and resolve hardware, software, or system-level issues.]",
+      "Innovation-driven [I create novel technical solutions to complex engineering problems.]",
+      "Adaptable to new tools [I rapidly learn and integrate emerging engineering software and hardware.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+    }
+  },
+  {
+    "q": "Select the strengths you possess from the Achievements / Recognition-Oriented Strengths category:",
+    "options": [
+      "High achiever [I consistently exceed project expectations and deliver measurable outcomes.]",
+      "Award-winning [I have received formal recognition for exceptional technical contributions.]",
+      "Record of excellence [I maintain a history of high-quality work and successful project completion.]",
+      "Proven results [I can demonstrate tangible outcomes from my initiatives.]",
+      "Track record of success [I have consistently met or exceeded engineering and project goals.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+    }
+  },
+  {
+    "q": " Strengths and Weaknesses are INTERNAL. Choose at least one from all these categories.",
+    "options": [
+      "Personal Traits [Internal characteristics that may limit your professional effectiveness]",
+      "Interpersonal Skills [Areas where communication or collaboration could improve]",
+      "Cognitive / Analytical Skills [Thinking, problem-solving, or decision-making areas needing growth]",
+      "Organizational / Work Management Skills [Task management or process-oriented areas for improvement]",
+      "Technical / Digital Competencies [Engineering tools, programming, or tech skills to develop further]",
+      "Achievement / Recognition-Oriented Weaknesses [Areas where measurable impact could improve]"
+    ],
+    "correct": [],
+    "encouragement": "Identifying weaknesses is the first step toward professional growth 💡"
+  },
+  {
+    "q": "Select the weaknesses you identify within Personal Traits:",
+    "options": [
+      "Time management improvement [I sometimes delay tasks and am working on planning better.]",
+      "Balanced confidence [I occasionally underestimate challenges and aim to assess them more thoroughly.]",
+      "Attention to detail vs efficiency [I focus on high-quality work, sometimes at the cost of speed.]",
+      "Patience development [I work on maintaining composure when projects take longer than expected.]",
+      "Delegation growth [I prefer handling tasks myself but am learning to trust team members.]",
+      "Measured risk-taking [I am cautious with unfamiliar approaches and aim to take calculated risks.]",
+      "Prioritization skills [I sometimes overcommit and am learning to focus on key responsibilities.]",
+      "Receptive to feedback [I am developing openness to constructive input.]",
+      "Steady performance [I am working on maintaining consistent performance under pressure.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Interpersonal Skills:",
+    "options": [
+      "Clear communication [I sometimes struggle to simplify technical concepts for all audiences.]",
+      "Professional relationship-building [I aim to expand my network proactively.]",
+      "Conflict management growth [I am learning to address disagreements constructively.]",
+      "Leadership development [I am working on guiding teams more effectively.]",
+      "Cross-team collaboration [I aim to engage more with diverse teams.]",
+      "Active engagement [I am developing a habit of contributing more in discussions.]",
+      "Constructive feedback skills [I am learning to provide feedback effectively.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Cognitive / Analytical Skills:",
+    "options": [
+      "Efficient decision-making [I sometimes take longer to decide and am learning to act faster.]",
+      "Decision prioritization [I am developing skills to focus on the most critical solutions.]",
+      "Creative approach development [I aim to explore more innovative solutions.]",
+      "Big-picture awareness [I am working on balancing focus on details with overall context.]",
+      "Adaptability growth [I am improving at integrating new tools or processes.]",
+      "Objective decision-making [I aim to base choices more on data than assumptions.]",
+      "Structured problem-solving [I am developing a more consistent methodology.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Organizational / Work Management Skills:",
+    "options": [
+      "Efficient time allocation [I am working on optimizing my schedule to meet deadlines.]",
+      "Multi-task efficiency [I am developing strategies to manage concurrent tasks effectively.]",
+      "Documentation improvement [I aim to maintain clearer records of work and progress.]",
+      "Planning skills [I am improving in creating structured project plans.]",
+      "Prioritization skills [I aim to focus more consistently on critical tasks.]",
+      "Responsibility balancing [I am learning to manage workload effectively.]",
+      "Process flexibility [I am developing adaptability in workflows.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Technical / Digital Competencies:",
+    "options": [
+      "Skill expansion [I aim to strengthen proficiency in key programming languages.]",
+      "Simulation skills growth [I am improving modeling and simulation capabilities.]",
+      "Design skills development [I am enhancing CAD or technical design expertise.]",
+      "Embedded systems growth [I am building experience with microcontrollers and firmware.]",
+      "Analytical skill development [I aim to improve interpretation of technical datasets.]",
+      "Emerging technology adoption [I am learning AI/ML, IoT, or cloud tools.]",
+      "Troubleshooting skills growth [I am improving problem-solving speed for complex systems.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the weaknesses you identify within Achievement / Recognition-Oriented Weaknesses:",
+    "options": [
+      "Demonstrating impact [I am learning to show measurable outcomes of my work.]",
+      "Visibility growth [I aim to present my contributions more effectively.]",
+      "Consistency improvement [I am focusing on steady achievement of targets.]",
+      "Professional exposure [I am working on sharing my expertise with peers and supervisors.]",
+      "Portfolio development [I am building better documentation of projects and accomplishments.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Opportunities are EXTERNAL. Choose at least one from each category.",
+    "options": [
+      "Educational Opportunities [Courses, certifications, and workshops to enhance technical knowledge]",
+      "Professional Networking [Platforms, industry events, and mentorships to build connections]",
+      "Industry Exposure [Internships, projects, and live industry experiences]",
+      "Technological Trends [Emerging tools, software, and industry innovations to adopt]",
+      "Skill Development Programs [Government, institutional, or private programs for upskilling]",
+      "Recognition & Career Growth [Competitions, awards, and professional visibility to advance careers]"
+    ],
+    "correct": [],
+    "encouragement": "Identify opportunities that you can leverage to accelerate your career 🚀"
+  },
+  {
+    "q": "Select the opportunities within Educational Opportunities:",
+    "options": [
+      "Online certifications [Platforms like NPTEL, Coursera, or Udemy to gain engineering skills.]",
+      "Advanced courses [Specialized courses in AI, IoT, Embedded Systems, Cloud, or Data Analytics.]",
+      "Workshops & bootcamps [Hands-on sessions to practice real-world engineering applications.]",
+      "University programs [Electives, minors, or postgraduate studies to expand expertise.]",
+      "Skill-based certifications [Industry-recognized certificates in programming, CAD, or project management.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Professional Networking:",
+    "options": [
+      "Industry conferences [Attend events like IIT TechFests, Embedded India, or Hackathons.]",
+      "Professional associations [Join IEEE, IEI, ISTE, or local engineering bodies.]",
+      "Mentorship programs [Engage with senior engineers, faculty, or industry mentors.]",
+      "LinkedIn & professional platforms [Connect with peers, alumni, and industry experts.]",
+      "Collaborative projects [Participate in cross-college or industry-academic initiatives.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Industry Exposure:",
+    "options": [
+      "Internships [Join companies like TCS, Infosys, Bosch, Siemens, or start-ups.]",
+      "Live projects [Work on real-time engineering problems during coursework or research.]",
+      "Industrial visits [Experience production plants, labs, or R&D facilities.]",
+      "Capstone projects [Apply technical knowledge to practical engineering solutions.]",
+      "Start-up exposure [Collaborate with Indian start-ups for hands-on learning and innovation.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Technological Trends:",
+    "options": [
+      "AI & Machine Learning [Adopt tools and frameworks relevant to Indian industry applications.]",
+      "IoT & Embedded Systems [Explore sensors, automation, and smart device development.]",
+      "Cloud computing [Use platforms like AWS, Azure, or GCP for scalable solutions.]",
+      "Automation & Robotics [Engage with automation trends in manufacturing and IT.]",
+      "Data Analytics [Learn tools like Python, MATLAB, or Tableau for data-driven insights.]",
+      "Open-source contributions [Participate in GitHub projects and collaborative coding communities.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Skill Development Programs:",
+    "options": [
+      "Government initiatives [Participate in Skill India, Digital India, Naan Mudhalvan programs.]",
+      "College-organized workshops [Attend departmental or college-level skill enhancement sessions.]",
+      "Corporate training programs [Enroll in company-sponsored certifications and bootcamps.]",
+      "Online skill platforms [Leverage platforms like GeeksforGeeks, HackerRank, or CodeChef.]",
+      "Soft-skill development [Online certifications]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the opportunities within Recognition & Career Growth:",
+    "options": [
+      "Technical competitions [Participate in Smart India Hackathon, coding contests, robotics competitions.]",
+      "Research publications [Publish in IEEE, journals, or conferences.]",
+      "Awards & scholarships [Apply for national or institutional recognition programs.]",
+      "Alumni & peer visibility [Showcase projects to seniors, alumni, and faculty for mentoring and guidance.]",
+      "Entrepreneurship exposure [Join incubators or start-up challenges to convert ideas into ventures.]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Challenges are EXTERNAL. Choose at least one from each of the following category.",
+    "options": [
+      "Educational Barriers [Obstacles that limit access to learning resources or advanced knowledge]",
+      "Industry & Job Market Challenges [Factors that affect employability and career progression]",
+      "Technological & Innovation Challenges [Rapid changes in technology and skill demands]",
+      "Organizational / Workplace Challenges [Constraints within companies or teams that hinder growth]",
+      "Personal / Societal Challenges [External pressures, expectations, or limitations in the Indian context]"
+    ],
+    "correct": [],
+    "encouragement": "Recognizing external challenges helps you plan strategies to overcome them 💪"
+  },
+  {
+    "q": "Select the challenges within Educational Barriers:",
+    "options": [
+      "Limited access to specialized courses [Advanced ML, IoT, Robotics courses may not be available in all colleges or regions]",
+      "High course costs [Certification fees for NPTEL, Coursera, or Udemy may be restrictive for some students]",
+      "Infrastructure gaps [Lack of labs, simulation software, or high-performance computing resources in colleges]",
+      "Limited mentorship [Few faculty or industry mentors to guide complex technical projects or research]",
+      "Competitive academic pressure [Heavy coursework or exam schedules may restrict time for skill development]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the challenges within Industry & Job Market Challenges:",
+    "options": [
+      "High competition [Large number of engineering graduates in India vying for limited roles]",
+      "Changing job requirements [Industries increasingly demand skills in AI, ML, Cloud, IoT, which may require continuous learning]",
+      "Internship scarcity [Limited availability of quality internships in desired companies or locations]",
+      "Geographical constraints [Job opportunities may require relocation to hubs like Bengaluru, Hyderabad, Pune, or NCR]",
+      "Start-up risk [Opportunities in start-ups may offer learning but come with high uncertainty and financial instability]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the challenges within Technological & Innovation Challenges:",
+    "options": [
+      "Rapid technology evolution [Technologies like AI/ML, IoT, and cloud evolve fast, requiring constant upskilling]",
+      "Tool & platform updates [Frequent software updates or new frameworks require learning curves]",
+      "Emerging global standards [Need to align skills with ISO, IEEE, or industry-specific standards]",
+      "Cybersecurity & data privacy concerns [Engineering solutions increasingly require knowledge of secure practices and compliance]",
+      "Integration complexity [Integrating multiple technologies (cloud, embedded, AI) can be challenging]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the challenges within Organizational / Workplace Challenges:",
+    "options": [
+      "Limited mentorship at workplace [Not all organizations have structured guidance or technical leadership support]",
+      "Hierarchical constraints [Decision-making delays due to rigid structures in Indian companies]",
+      "Resource limitations [Limited access to hardware, software, or budget for projects]",
+      "Project ambiguity [Unclear objectives or changing client requirements in real-world projects]",
+      "Team dynamics [Interpersonal conflicts, uneven workload distribution, or lack of cross-functional collaboration]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  },
+  {
+    "q": "Select the challenges within Personal / Societal Challenges:",
+    "options": [
+      "Family expectations [Pressure to secure stable jobs or prioritize certain career paths]",
+      "Financial constraints [Limited funds for certifications, workshops, or higher studies]",
+      "Gender or social bias [Women or underrepresented groups may face bias in some technical workplaces]",
+      "Regional limitations [Students in smaller towns may have less access to internships, labs, or start-ups]",
+      "Work-life balance [Managing academic, personal, and professional commitments can be challenging]"
+    ],
+    "correct": [],
+    "encouragement": "Select the category that best represents your strongest professional abilities 🌟"
+  }
+];
+
+let current = 0;
+let correctCount = 0;
+let totalWrongGuesses = 0;
+let currentStreak = 0;
+let highestStreak = 0;
+let guessesPerQuestion = [];
+let startTime;
+let timerInterval;
+let playerName = "";
+let playerDepartment = "";
+
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const timerEl = document.getElementById("timer");
+const wrongCounterEl = document.getElementById("wrongCounter");
+const streakCounterEl = document.getElementById("streakCounter");
+const progressTrackerEl = document.getElementById("progressTracker");
+const scoreCardEl = document.getElementById("scoreCard");
+const restartBtn = document.getElementById("restartBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function beginQuiz() {
+  const nameVal = document.getElementById("nameInput").value.trim();
+  const deptVal = document.getElementById("departmentSelect").value;
+  if(!nameVal){ alert("Enter your name!"); return; }
+  if(!deptVal){ alert("Select your department!"); return; }
+  playerName = nameVal; playerDepartment = deptVal;
+  document.getElementById("nameForm").style.display="none";
+  document.getElementById("quizContent").style.display="block";
+  startQuiz();
+}
+
+function startQuiz(){
+  current=0; correctCount=0; totalWrongGuesses=0; currentStreak=0; highestStreak=0; guessesPerQuestion=[];
+  startTime = Date.now();
+  timerEl.innerText="⏳ Time: 0s"; wrongCounterEl.innerText="❌ Wrong Attempts: 0"; streakCounterEl.innerText="🔥 Streak: 0";
+  scoreCardEl.innerHTML=""; restartBtn.style.display="none";
+  loadQuestion();
+  startTimer();
+}
+
+let selectedOptions = [];
+
+function loadQuestion() {
+  if(current >= quizData.length) return showScore();
+  const data = quizData[current];
+  guessesPerQuestion[current] = [];
+  selectedOptions = [];
+  optionsEl.innerHTML = "";
+  questionEl.innerHTML = `${data.q}<br><em style="color:#FFD700;">${data.encouragement}</em>`;
+  progressTrackerEl.innerText = `📍 Question ${current+1} of ${quizData.length}`;
+
+  data.options.forEach((opt, index) => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.dataset.index = index;
+
+    btn.onclick = () => {
+      const idx = parseInt(btn.dataset.index);
+      if(selectedOptions.includes(idx)) {
+        // ✅ MULTI-SELECT: deselect on click again
+        selectedOptions = selectedOptions.filter(i => i !== idx);
+        btn.classList.remove("correct", "wrong");
+      } else {
+        // ✅ MULTI-SELECT: select option
+        selectedOptions.push(idx);
+        btn.classList.add("correct"); // Optional visual feedback
+      }
+    };
+
+    optionsEl.appendChild(btn);
+  });
+   nextBtn.style.display = "inline-block";
+}
+nextBtn.onclick = () => {
+  // Prevent multiple clicks
+  nextBtn.disabled = true;
+
+  const data = quizData[current];
+
+  // ✅ MULTI-SELECT: store selected option texts instead of indices
+  guessesPerQuestion[current] = selectedOptions.map(i => String(data.options[i]));
+
+  // Update stats
+  selectedOptions.forEach(idx => {
+    if (data.correct.includes(idx)) correctCount++;
+    else totalWrongGuesses++;
+  });
+
+  currentStreak = selectedOptions.some(idx => data.correct.includes(idx)) ? currentStreak + 1 : 0;
+  if (currentStreak > highestStreak) highestStreak = currentStreak;
+  streakCounterEl.innerText = `🔥 Streak: ${currentStreak}`;
+  wrongCounterEl.innerText = `❌ Wrong Attempts: ${totalWrongGuesses}`;
+
+  current++;
+
+  // If last question was just answered, show score and stop
+  if (current >= quizData.length) {
+    showScore();
+    nextBtn.style.display = "none"; // Hide next button
+    return;
+  }
+
+  // Otherwise, load next question and re-enable Next button
+  selectedOptions = [];
+  loadQuestion();
+  nextBtn.disabled = false;
+};
+
+function showScore() {
+    clearInterval(timerInterval);
+    const totalTime = Math.floor((Date.now() - startTime) / 1000);
+
+    // Convert each question's selected answers to string
+    const answersPerQuestion = guessesPerQuestion.map((choices, i) => {
+        return choices.join(", ") || "No selection";
+    });
+
+    // Prepare payload: first columns are name, department, stats, then one column per question
+    const payload = {
+        name: playerName,
+        correctCount: correctCount,
+        totalWrongGuesses: totalWrongGuesses,
+        totalTime: totalTime,
+        department: playerDepartment,
+        answers: answersPerQuestion,
+        highestStreak: "Event 1"
+    };
+
+    // Send to Apps Script
+    fetch("https://script.google.com/macros/s/AKfycbxA0lRkERWFt2cYfmm04IQioaG4-21k5VFF5CFKP30zyVaJXM5_27PL3v8JIZEweK3u/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    // Show scorecard
+    scoreCardEl.innerHTML = `
+        <h3>🎉 Registration Completed!</h3>
+        <p>👤 Name: ${playerName}</p>
+        <p>🏫 Department: ${playerDepartment}</p>
+        <p>✅ Correct Choices: ${correctCount}</p>
+        <p>❌ Wrong Attempts: ${totalWrongGuesses}</p>
+        <p>🔥 Highest Streak: ${highestStreak}</p>
+        <p>⏱️ Time Taken: ${totalTime} seconds</p>
+        <p>📝 Answers per Question:</p>
+        <ul>
+            ${guessesPerQuestion.map((choices, i) => `<li>${quizData[i].q}: ${choices.join(", ") || "No selection"}</li>`).join("")}
+        </ul>
+    `;
+}
+
+function startTimer(){ timerInterval=setInterval(()=>{ const elapsed=Math.floor((Date.now()-startTime)/1000); timerEl.innerText=`⏳ Time: ${elapsed}s`; },1000); }
+
+restartBtn.onclick=()=>{
+  document.getElementById("quizContent").style.display="none";
+  document.getElementById("nameForm").style.display="block";
+  document.getElementById("nameInput").value="";
+};
+</script>
+</body>
+</html>
